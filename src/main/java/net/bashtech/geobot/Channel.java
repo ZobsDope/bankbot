@@ -630,8 +630,10 @@ public class Channel {
 		if (userBalances.containsKey(key)) {
 			return userBalances.get(key);
 		} else {
-			return null;
+			userBalances.put(key, defaultBalance);
+			saveBalance(true);
 		}
+		return null;
 	}
 	
 	

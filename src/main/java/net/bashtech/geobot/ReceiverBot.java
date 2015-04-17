@@ -1067,8 +1067,10 @@ public class ReceiverBot extends PircBot {
 		// Balance
 		if ((msg[0].equalsIgnoreCase(prefix + "balance")) || (msg[0].equalsIgnoreCase(prefix + "bal"))) {
 			log("RB: Matched command !balance");
-			
-			send(channel, "You have " + channelInfo.getBalance(sender) + " " + currency);
+			if (channelInfo.getBalance(sender) != null) {
+				send(channel, "You have " + channelInfo.getBalance(sender) + " " + currency);
+			} else
+				send(channel, sender + " not found! Opening account with " + Channel.defaultBalance + " " + currency + ".");
 			
 			return;
 		}
@@ -1159,8 +1161,17 @@ public class ReceiverBot extends PircBot {
 				} else if (msg[1].equalsIgnoreCase("get")) {
 					String key = msg[2].replaceAll("[^a-zA-Z0-9]", "");
 					key=key.toLowerCase();
-					
-						send(channel, "The balance of " + key + " is " + channelInfo.getBalance(key) + " " + currency);
+					/*
+						if (channelInfo.getBalance(sender) != null) {
+							send(channel, "You have " + channelInfo.getBalance(sender) + " " + currency);
+						} else
+							send(channel, sender + " not found! Opening account with " + Channel.defaultBalance + " " + currency + ".");
+					*/
+					if (channelInfo.getBalance(key) != null) {
+						send(channel, "The balance of " + key + " is " + channelInfo.getBalance(key) + " " + currency + ".");
+					} else {
+						send(channel, key + " not found! Opening account with " + Channel.defaultBalance + " " + currency + ".");
+					}
 				} else if (msg[1].equalsIgnoreCase("remove") && isOp) {
 					String key = msg[2].replaceAll("[^a-zA-Z0-9]", "");
 					key = key.toLowerCase();
