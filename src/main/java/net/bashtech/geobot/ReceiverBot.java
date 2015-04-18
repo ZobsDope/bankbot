@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 public class ReceiverBot extends PircBot {
 	static ReceiverBot instance;
 	Timer joinCheck;
+	Timer userCheck;
 	Random random = new Random();
 	private Pattern[] linkPatterns = new Pattern[4];
 	private Pattern[] symbolsPatterns = new Pattern[2];
@@ -1074,6 +1075,13 @@ public class ReceiverBot extends PircBot {
 			
 			return;
 		}
+		
+		if ((msg[0].equalsIgnoreCase(prefix + "instance")) || (msg[0].equalsIgnoreCase(prefix + "bal"))) {
+			log("RB: Matched command !instance");
+				send(channel, "Instance is " + BotManager.getInstance().toString() + ".");
+			return;
+		}
+		
 		// !bet
 		// !bet set [options]
 		// !bet [options] [amount]
@@ -2497,6 +2505,39 @@ public class ReceiverBot extends PircBot {
 		BotManager.getInstance().log(line);
 	}
 
+	//TODO work on user onJoin checks
+	/*
+	private void userJoinCheck() {
+		userCheck = new Timer();
+		//String channel = ;
+		int delay = 60000;
+		
+		userCheck.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				ArrayList<String> currentUserList = JSONUtil.tmiChatters(BotManager.getInstance().toString());
+				
+				for (Map.Entry<String, Channel> entry : BotManager.getInstance().userList.entrySet()) {
+				boolean inArray = false;
+				for (String a : currentUserList) {
+					if (entry.getValue().getChannel().equals(a))
+						inArray = true;
+				}
+					if (!inArray) {
+						log("RB: " + entry.getValue().getChannel()
+								+ " is not in the joined list.");
+						
+						try {
+							Thread.sleep(350);
+						} catch (InterruptedException e) {
+
+							e.printStackTrace();
+					}
+				}
+				}
+			}
+		}, delay, delay);
+	}
+	*/
 	private void startJoinCheck() {
 
 		joinCheck = new Timer();
