@@ -725,6 +725,49 @@ public class Channel {
 		}
 
 	}
+	// Get Balance leaderboard
+	public String balanceLeaderboard(int size){
+		String leaderboard = "";
+		String[] keys = new String[userBalances.size()];
+		Long[] values = new Long[userBalances.size()];
+		int index = 0;
+		for (Map.Entry<String, Long> mapEntry : userBalances.entrySet()) {
+		    keys[index] = mapEntry.getKey();
+		    values[index] = mapEntry.getValue();
+		    index++;
+		}
+		this.selectionSort(values, keys);
+		for (int i = 0; i<size; i++) {
+			try {
+				int currVal = values.length - (i+1);
+				leaderboard = leaderboard + (i+1) + ") " + keys[currVal] + ":" + values[currVal] + " ";
+			} catch (ArrayIndexOutOfBoundsException e) {
+			}
+			
+		}
+		return leaderboard;
+	}
+	// Sort
+	public void selectionSort(Long[] values, String[] keys){
+        int min;
+        Long temp;
+        String temp2;
+        for (int i=0; i < values.length-1; i++) {
+            min = i; // look for next smallest
+            for (int scan = i+1; scan < values.length; scan++){
+                if (values[scan] < values[min]) {
+                    min = scan;
+                }
+            }
+            // then swap it into position i
+            temp = values[i];
+            temp2 = keys[i];
+            values[i] = values[min];
+            keys[i] = keys[min];
+            values[min] = temp;
+            keys[min] = temp2;
+        }
+    }
 	
 	public void setScheduledCommand(String key, String pattern, int diff) {
 		if (commandsSchedule.containsKey(key)) {

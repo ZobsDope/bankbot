@@ -1150,7 +1150,22 @@ public class ReceiverBot extends PircBot {
 			}
 			
 		}
-		
+		// !leaderboard
+		if (msg[0].equalsIgnoreCase(prefix + "leaderboard")) {
+			log("RB: Matched command !leaderboard");
+			if(channelInfo.getCurrency()) {	
+				if (msg.length > 1) {
+					Integer size = Integer.valueOf(msg[1]);
+					send(channel, channelInfo.balanceLeaderboard(size));
+				} else {
+					Integer size = 5;
+					send(channel, channelInfo.balanceLeaderboard(size));
+				}
+				
+			} else {
+				send(channel, "Banking commands are not enabled for this channel.");
+			}
+		}
 		// !currency - All
 		if ((msg[0].equalsIgnoreCase(prefix + "currency")) || 
 			(msg[0].equalsIgnoreCase(prefix + "curr")) || 
