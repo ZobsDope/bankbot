@@ -267,10 +267,6 @@ public class Channel {
 	public String getChannelBullet() {
 		return bullet;
 	}
-	
-	public String getCurrency() {
-		return currency;
-	}
 
 	public void increaseWpCount() {
 		wpCount++;
@@ -1867,6 +1863,17 @@ public class Channel {
 
 	public boolean getUrban() {
 		return urbanEnabled;
+	}
+	
+	public void setCurrency(boolean enabled) {
+		currencyEnabled = enabled;
+		config.put("currencyEnabled", enabled);
+		saveConfig(true);
+
+	}
+
+	public boolean getCurrency() {
+		return currencyEnabled;
 	}
 
 	public ArrayList<String> getIgnoredUsers() {
